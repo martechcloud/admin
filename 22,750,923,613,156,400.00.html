@@ -103,30 +103,6 @@
             </div>
 
             <script>
-                window.onload = function() {
-                    var iframe = document.getElementById('my-iframe');
-                    var deviceHeight = window.innerHeight;
-                    var deviceWidth = window.innerWidth;
-        
-                    if (deviceWidth >= 768) {
-                        iframe.style.width = '100%';
-                    }
-                    iframe.style.height = deviceHeight + 'px';
-                    
-                    window.addEventListener('resize', function() {
-                        deviceHeight = window.innerHeight;
-                        deviceWidth = window.innerWidth;
-                        iframe.style.height = deviceHeight + 'px';
-                        if (deviceWidth >= 768) {
-                            iframe.style.width = '100%';
-                        } else {
-                            iframe.style.width = '100%';
-                        }
-                    });
-                };
-            </script>
-
-            <script>
         var cellNumber = "D6";
         // Replace 'WEB_APP_URL' with the actual web app URL obtained in step 3
         var webAppUrl = 'https://script.google.com/macros/s/AKfycbxKiSPISfUwk03wXrxjERfGiN4OprqgYv3rAobW9MAOh1RR3sf03zRO335pSCS_XR8T/exec?cellNumber=' + cellNumber;
