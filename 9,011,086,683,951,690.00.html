@@ -1,0 +1,137 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="styles.css">
+     
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <!--<title>Admin Dashboard Panel</title>--> 
+</head>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+                <img src="martech_logo.png" alt="">
+            </div>
+
+            <span class="logo_name">Martech Cloud</span>
+        </div>
+        
+        
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="74,264,764,071,912,900.00.html">
+                    <i  class="uil uil-estate"></i>
+                    <span class="link-name">Overview</span>
+                </a></li>
+                <li><a href="34,304,478,897,540,800.00.html">
+                    <i class="uil uil-database"></i>
+                    <span class="link-name">Audience</span>
+                </a></li>
+                <li><a href="16,433,004,749,616,000.00.html">
+                    <i class="uil uil-chart"></i>
+                    <span class="link-name">Analytics</span>
+                </a></li>
+                <li><a href="74,881,669,194,009,500.00.html">
+                    <i class="uil uil-comments"></i>
+                    <span class="link-name">Messenger</span>
+                </a></li>
+                <li><a href="89,752,729,387,177,000.00.html">
+                    <i class="uil uil-search"></i>
+                    <span class="link-name">Help</span>
+                </a></li>
+                <li><a href="9,011,086,683,951,690.00.html">
+                    <i style = color:#00acc1; class="uil uil-users-alt"></i>
+                    <span class="link-name">Unified Portal</span>
+                </a></li>
+            </ul>
+            
+            <ul class="logout-mode">
+                <li><a href="https://script.google.com/macros/s/AKfycbxYivC5N4uLCJO_y0DGKNlXx8RePEmkK_Pr06OyM4VIUyovdYdZeIWW5Stl0ZNLZJ9LZQ/exec">
+                    <i class="uil uil-signout"></i>
+                    <span class="link-name">Logout</span>
+                </a></li>
+
+                <li class="mode">
+                    <a   
+                        <i class=""></i>   <!--</a><a href="#"></a>.-->  <!--<i class="uil uil-moon"></i>-->  
+                    <span class="link-name"></span>   <!--<span class="link-name">Dark Mode</span>-->  
+                </a>
+
+                <div class="mode-toggle">
+                  <span class=""></span> <!--<span class="switch"></span>-->
+                </div>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class="uil uil-bars sidebar-toggle"></i>
+
+            <div class="search-box">
+                <i class="uil uil-search"></i>
+                <input type="text" placeholder="Search here...">
+            </div>
+    
+            <a href="#" class="profile">
+				<img src="3rdi-logo.png" alt="" width="45" height="40">
+			</a>
+        </div>
+
+        <div class="dash-content">
+            <div class="home-content">
+                <div class="overview-boxes">
+
+                    <style>
+                        iframe {
+                            width: 100%;
+                            height: 100%;
+                        }
+                    </style>
+          
+                  <iframe  id="my-iframe" src="https://lookerstudio.google.com/embed/reporting/44162e24-7fce-4e01-b61a-f55ef102d507/page/p_73omlvog4c" frameborder="0" style="border:0" allowfullscreen></iframe>
+                 <br>
+        
+            </div>
+
+            <script>
+                window.onload = function() {
+                    var iframe = document.getElementById('my-iframe');
+                    var deviceHeight = window.innerHeight;
+                    var deviceWidth = window.innerWidth;
+        
+                    if (deviceWidth >= 768) {
+                        iframe.style.width = '100%';
+                    }
+                    iframe.style.height = deviceHeight + 'px';
+                    
+                    window.addEventListener('resize', function() {
+                        deviceHeight = window.innerHeight;
+                        deviceWidth = window.innerWidth;
+                        iframe.style.height = deviceHeight + 'px';
+                        if (deviceWidth >= 768) {
+                            iframe.style.width = '100%';
+                        } else {
+                            iframe.style.width = '100%';
+                        }
+                    });
+                };
+            </script>
+              
+              
+              
+              
+        </div>
+    </section>
+
+    <--<script src="scripts.js"></script>-->
+</body>
+</html>
