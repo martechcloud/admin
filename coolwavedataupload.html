@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+<style>
+        /* Custom CSS for the minimize button */
+        #minimize-button {
+            position: absolute;
+            top: 20px;
+            right: 10px;
+            background-color: #00b6cb;
+            color: white;
+            border: white;
+            padding: 5px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .white-text {
+            color: white;
+        }
+
+        #minimize-button:hover {
+            background-color: #5fa6f1;
+        }
+        
+        /* Custom CSS for the table */
+        table {
+            width: 80%;
+            margin: 70px auto;
+            background-color: #00b6cb;
+            color: white;
+            border-collapse: collapse;
+            box-shadow: 0 0 3px #00b6cb;
+        }
+
+        .loading-spinner {
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top: 4px solid #00b6cb;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+        margin: 20px 20px 20px auto;
+        display: none;
+        }
+
+        .alert {
+        padding: 10px 15px; /* Increased padding for a balanced appearance */
+        background-color: #4CAF50; /* A shade of green */
+        color: white;
+        text-align: center;
+        border-radius: 20px; /* Rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        display: none;
+        margin-top: 60px;
+        transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+        }
+
+/* Hover effect: darken background and slightly scale up */
+        .alert:hover {
+        background-color: #45a049; /* Darker shade of green */
+        transform: scale(1.02);
+        }
+
+        .alert2 {
+        padding: 10px;
+        background-color: lightgrey;
+        color: black;
+        text-align: center;
+        display: none;
+        margin-top: 10px;
+        }
+
+        @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+
+        tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        th {
+            background-color: #00b6cb; /* Dark gray background for table header */
+        }
+
+        tr:nth-child(odd) {
+            background-color: white; /* Dark gray background for odd rows */
+        }
+
+        tr:nth-child(even) {
+            background-color: white; /* Slightly lighter gray background for even rows */
+        }
+    </style>
+</head>
+<body>
+<div class="loading-spinner" id="loadingSpinner"></div>
+<div class="alert" id="alertMessage"></div>
+<div class="alert2" id="alertMessage2"></div>
+<button id="minimize-button" onclick="checkCellColorsBeforeSending()">Add Data</button>
+<table class="table table-bordered">
+<thead>
+<tr>
+<th class="white-text">Phone Number</th>
+<th class="white-text">Customer Name</th>
+<th class="white-text">Date</th>
+<th class="white-text">Quantity</th>
+<th class="white-text">Service Type</th>
+<th class="white-text">Amount</th>
+<th class="white-text">Address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td contenteditable="true" onkeydown="moveToNextCell(event)"></td>
+<td contenteditable="true" onkeydown="moveToNextCell(event)"></td>
+<td contenteditable="true" onkeydown="moveToNextCell(event)"></td>
+<td contenteditable="true" onkeydown="moveToNextCell(event)"></td>
+<td contenteditable="true" onkeydown="moveToNextCell(event)"></td>
+<td contenteditable="true" onkeydown="moveToNextCell(event)"></td>
+<td contenteditable="true" onkeydown="moveToNextCell(event)"></td>
+</tr>
+
+
+
+
+
+
+
+<!-- Repeat this row structure for a total of 10 rows -->
+</tbody>
+</table><table class="table table-bordered"><thead style="color: white;"><tr><th>Phone Number</th><th>Customer Name</th><th>Date</th><th>Quantity</th><th>Service Type</th><th>Amount</th><th>Address</th></tr></thead><tbody style="color: black;"></tbody></table>
+<script>
+        function moveToNextCell(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const cell = event.target;
+                const cells = Array.from(cell.parentElement.children);
+                const currentIndex = cells.indexOf(cell);
+                if (currentIndex < cells.length - 1) {
+                    const nextCell = cells[currentIndex + 1];
+                    nextCell.focus();
+                }
+            }
+        }
+    </script>
+<script>
+function sendDataToGoogleSheet() {
+    const cells = document.querySelectorAll('td[contenteditable="true"]');
+    var loadingSpinner = document.getElementById("loadingSpinner");
+    loadingSpinner.style.display = "inline-block";
+    const records = [];
+    let record = [];
+
+    cells.forEach(cell => {
+        record.push(cell.innerText);
+    });
+    records.push(record);
+
+    // Check if the number of cell values is less than 7
+    if(record.length < 7) {
+        alert("Number of values is less than 7. Data not sent.");
+        loadingSpinner.style.display = "none";
+        return; // Breaks the function execution
+    }
+
+    // Send the record to the Apps Script web app
+    fetch('https://script.google.com/macros/s/AKfycbzY6s0eO35CbKIzrans0wbh0IhTcSjORMYOQXfGdg9zFxhDJrEFcloQ1VW5RjOfXA83/exec', {
+        method: 'POST',
+        body: JSON.stringify(records)
+    })
+    .then(response => response.text())
+    .then(message => {
+        alertMessage.style.display = "block";
+        alertMessage.innerHTML = "Data Added Successfully.";
+        setTimeout(function() {
+            document.querySelector('.alert').style.display = 'none';
+        }, 2000); // 2 seconds
+        loadingSpinner.style.display = "none";
+        
+        // Populate the new table with the added data in rows
+        const newTable = document.querySelectorAll('table')[1];
+        const newRow = document.createElement('tr');
+        for(let i = 0; i < record.length; i++) {
+            const newCell = document.createElement('td');
+            newCell.innerText = record[i];
+            newRow.appendChild(newCell);
+        }
+        newTable.querySelector('tbody').appendChild(newRow);
+        
+        // Clear the first table row after adding data
+        cells.forEach(cell => {
+            cell.innerText = '';
+        });
+    })
+    .catch(error => {
+        console.error("Error sending data:", error);
+    });
+}
+</script>
+<script>
+document.addEventListener("keydown", function(event) {
+    let activeElement = document.activeElement;
+    if (activeElement.tagName === "TD" || activeElement.tagName === "TH") {
+        let cell = activeElement;
+        let row = cell.parentElement;
+        let table = row.parentElement;
+        let rowIndex = Array.from(row.parentElement.children).indexOf(row);
+        let cellIndex = Array.from(row.children).indexOf(cell);
+        
+        switch (event.key) {
+            case "ArrowUp":
+                if (rowIndex > 0) {
+                    table.children[rowIndex - 1].children[cellIndex].focus();
+                }
+                break;
+            case "ArrowDown":
+                if (rowIndex < table.children.length - 1) {
+                    table.children[rowIndex + 1].children[cellIndex].focus();
+                }
+                break;
+            case "ArrowLeft":
+                if (cellIndex > 0) {
+                    row.children[cellIndex - 1].focus();
+                }
+                break;
+            case "ArrowRight":
+                if (cellIndex < row.children.length - 1) {
+                    row.children[cellIndex + 1].focus();
+                }
+                break;
+        }
+    }
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    validatePhoneNumbers();
+
+    // Add event listener for each cell in the Phone Number column
+    let phoneCells = document.querySelectorAll('td:nth-child(1)');
+    phoneCells.forEach(function(cell) {
+        cell.addEventListener('input', validatePhoneNumbers);
+    });
+});
+
+function validatePhoneNumbers() {
+    let phoneCells = document.querySelectorAll('td:nth-child(1)');
+    let phoneRegex = /^91\d{10}$/;  // Starts with 91 and has a total length of 12 digits
+
+    phoneCells.forEach(function(cell) {
+        let cellValue = cell.innerText.trim();
+        if (cellValue === "") {
+            cell.style.backgroundColor = "";
+            return;  // Skip validation for blank cells
+        }
+        
+        if (!phoneRegex.test(cellValue)) {
+            cell.style.backgroundColor = "lightcoral";
+        } else {
+            cell.style.backgroundColor = "";
+        }
+    });
+}
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    validateDates();
+
+    // Add event listener for each cell in the Date column
+    let dateCells = document.querySelectorAll('td:nth-child(3)');
+    dateCells.forEach(function(cell) {
+        cell.addEventListener('input', validateDates);
+    });
+});
+
+function validateDates() {
+    let dateCells = document.querySelectorAll('td:nth-child(3)');
+    let dateRegex = /^(0[1-9]|[12][0-9]|3[01])[-](0[1-9]|1[0-2])[-]\d{4}$/;  // DD-MM-YYYY format
+
+    dateCells.forEach(function(cell) {
+        let cellValue = cell.innerText.trim();
+        if (cellValue === "" || cellValue === "DD-MM-YYYY" ) {
+            cell.style.backgroundColor = "";
+            return;  // Skip validation for blank cells
+        }
+        
+        if (!dateRegex.test(cellValue)) {
+            cell.style.backgroundColor = "lightcoral";
+        } else {
+            cell.style.backgroundColor = "";
+        }
+    });
+}
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    validateQuantityAndAmount();
+
+    // Add event listeners for each cell in the Quantity and Amount columns
+    let quantityCells = document.querySelectorAll('td:nth-child(4)');
+    let amountCells = document.querySelectorAll('td:nth-child(6)');
+    quantityCells.forEach(function(cell) {
+        cell.addEventListener('input', validateQuantityAndAmount);
+    });
+    amountCells.forEach(function(cell) {
+        cell.addEventListener('input', validateQuantityAndAmount);
+    });
+});
+
+function validateQuantityAndAmount() {
+    validateNumeric('td:nth-child(4)');  // Quantity column
+    validateNumeric('td:nth-child(6)');  // Amount column
+}
+
+function validateNumeric(selector) {
+    let cells = document.querySelectorAll(selector);
+    let numericRegex = /^-?\d*(\.\d+)?$/;  // Allows integers and floating point numbers
+
+    cells.forEach(function(cell) {
+        let cellValue = cell.innerText.trim();
+        if (cellValue === "") {
+            cell.style.backgroundColor = "";
+            return;  // Skip validation for blank cells
+        }
+        
+        if (!numericRegex.test(cellValue)) {
+            cell.style.backgroundColor = "lightcoral";
+        } else {
+            cell.style.backgroundColor = "";
+        }
+    });
+}
+</script>
+<script>
+function checkCellColorsBeforeSending() {
+    let editableCells = document.querySelectorAll('td[contenteditable="true"]');
+    for (let cell of editableCells) {
+        if (window.getComputedStyle(cell).backgroundColor === "rgb(240, 128, 128)") {  // RGB value for lightcoral
+            alertMessage.style.display = "block";
+            alertMessage.innerHTML = "Please check the format of the";
+            setTimeout(function() {
+            document.querySelector('.alert').style.display = 'none';
+            }, 2000); // 10 seconds
+            return;
+        }
+    }
+    sendDataToGoogleSheet();  // Call the original function if all cells are valid
+}
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    updateDatePlaceholders();
+
+    // Add event listeners for each cell in the Date column
+    let dateCells = document.querySelectorAll('td:nth-child(3)');
+    dateCells.forEach(function(cell) {
+        cell.addEventListener('focus', function() {
+            if (cell.innerText.trim() === "DD-MM-YYYY") {
+                cell.innerText = "";
+                cell.style.color = "black";  // Assuming default text color is white
+            }
+        });
+        cell.addEventListener('blur', updateDatePlaceholders);
+    });
+});
+
+function updateDatePlaceholders() {
+    let dateCells = document.querySelectorAll('td:nth-child(3)');
+    dateCells.forEach(function(cell) {
+        if (cell.innerText.trim() === "") {
+            cell.innerText = "DD-MM-YYYY";
+            cell.style.color = "lightgrey";
+        }
+    });
+}
+</script>
+<script>
+function checkCellColorsBeforeSending() {
+    let editableCells = document.querySelectorAll('td[contenteditable="true"]');
+    for (let cell of editableCells) {
+        if (window.getComputedStyle(cell).backgroundColor === "rgb(240, 128, 128)") {  // RGB value for lightcoral
+            alertMessage2.style.display = "block";
+            alertMessage2.innerHTML = "Please check the format of the data";
+            setTimeout(function() {
+            document.querySelector('.alert2').style.display = 'none';
+            }, 2000); // 10 seconds
+            return;
+        }
+    }
+    
+    // Remove placeholder from date cells before sending data
+    let dateCells = document.querySelectorAll('td:nth-child(3)');
+    dateCells.forEach(function(cell) {
+        if (cell.innerText.trim() === "DD-MM-YYYY") {
+            cell.innerText = "";
+        }
+    });
+
+    sendDataToGoogleSheet();  // Call the original function after removing placeholder values
+
+    // Restore placeholder values after sending data
+    updateDatePlaceholders();
+}
+
+</script>
+</body>
+</html>
