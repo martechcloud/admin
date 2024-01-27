@@ -28,7 +28,31 @@
 </head>
 <body>
   <div class="iframe-container">
-    <iframe src="https://script.google.com/macros/s/AKfycbyscxzo8P1TvlaUPnzYkF2FKzr1EUsdErpgSVSsXAIqGjdgBxK3iaNiavkT9Q3SmQJk2Q/exec" frameborder="0"></iframe>
+    <iframe id = "my-iframe" src="https://script.google.com/macros/s/AKfycbyscxzo8P1TvlaUPnzYkF2FKzr1EUsdErpgSVSsXAIqGjdgBxK3iaNiavkT9Q3SmQJk2Q/exec" frameborder="0"></iframe>
   </div>
+<script>
+                window.onload = function() {
+                    var iframe = document.getElementById('my-iframe');
+                    var deviceHeight = window.innerHeight;
+                    var deviceWidth = window.innerWidth;
+        
+                    if (deviceWidth >= 768) {
+                        iframe.style.width = '100%';
+                    }
+                    iframe.style.height = deviceHeight + 'px';
+                    
+                    window.addEventListener('resize', function() {
+                        deviceHeight = window.innerHeight;
+                        deviceWidth = window.innerWidth;
+                        iframe.style.height = deviceHeight + 'px';
+                        if (deviceWidth >= 768) {
+                            iframe.style.width = '100%';
+                        } else {
+                            iframe.style.width = '100%';
+                        }
+                    });
+                };
+            </script>
+  
 </body>
 </html>
