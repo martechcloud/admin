@@ -1,58 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Martech Cloud</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive Iframe</title>
+<style>
     body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
     }
     .iframe-container {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%; /* 16:9 aspect ratio */
-      overflow: hidden;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
     }
     .iframe-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
     }
-  </style>
+</style>
 </head>
 <body>
-  <div class="iframe-container">
-    <iframe id = "my-iframe" src="https://script.google.com/macros/s/AKfycbyscxzo8P1TvlaUPnzYkF2FKzr1EUsdErpgSVSsXAIqGjdgBxK3iaNiavkT9Q3SmQJk2Q/exec" frameborder="0"></iframe>
-  </div>
-<script>
-                window.onload = function() {
-                    var iframe = document.getElementById('my-iframe');
-                    var deviceHeight = window.innerHeight;
-                    var deviceWidth = window.innerWidth;
-        
-                    if (deviceWidth >= 768) {
-                        iframe.style.width = '100%';
-                    }
-                    iframe.style.height = deviceHeight + 'px';
-                    
-                    window.addEventListener('resize', function() {
-                        deviceHeight = window.innerHeight;
-                        deviceWidth = window.innerWidth;
-                        iframe.style.height = deviceHeight + 'px';
-                        if (deviceWidth >= 768) {
-                            iframe.style.width = '100%';
-                        } else {
-                            iframe.style.width = '100%';
-                        }
-                    });
-                };
-            </script>
-  
+    <div class="iframe-container">
+        <iframe src="https://script.google.com/macros/s/AKfycbyscxzo8P1TvlaUPnzYkF2FKzr1EUsdErpgSVSsXAIqGjdgBxK3iaNiavkT9Q3SmQJk2Q/exec" frameborder="0" allowfullscreen></iframe>
+    </div>
 </body>
 </html>
