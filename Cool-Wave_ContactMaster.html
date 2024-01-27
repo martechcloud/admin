@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>cOOL-WAVE CONTACT MASTER</title>
+<title>COOL-WAVE CONTACT MASTER</title>
 <style>
     body, html {
         margin: 0;
@@ -31,5 +31,24 @@
     <div class="iframe-container">
         <iframe src="https://script.google.com/macros/s/AKfycbyscxzo8P1TvlaUPnzYkF2FKzr1EUsdErpgSVSsXAIqGjdgBxK3iaNiavkT9Q3SmQJk2Q/exec" frameborder="0" allowfullscreen></iframe>
     </div>
+
+    <script>
+        var cellNumber = "D2";
+        // Replace 'WEB_APP_URL' with the actual web app URL obtained in step 3
+        var webAppUrl = 'https://script.google.com/macros/s/AKfycbxKiSPISfUwk03wXrxjERfGiN4OprqgYv3rAobW9MAOh1RR3sf03zRO335pSCS_XR8T/exec?cellNumber=' + cellNumber;
+        
+        fetch(webAppUrl)
+            .then(response => response.text())
+            .then(data => {
+                if (data.includes('active')) {
+                } else {
+                    // Redirect to another URL when the cell value is blank
+                    window.location.href = 'https://martechcloud.github.io/admin/'; // Replace with the URL of another page
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    </script>
 </body>
 </html>
